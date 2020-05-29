@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.TTweetMapper">
+    
+    <resultMap type="TTweet" id="TTweetResult">
+        <result property="id"    column="id"    />
+        <result property="mid"    column="mid"    />
+        <result property="uid"    column="uid"    />
+        <result property="status"    column="status"    />
+        <result property="tUid"    column="t_uid"    />
+        <result property="title"    column="title"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="aUid"    column="a_uid"    />
+        <result property="createId"    column="create_id"    />
+        <result property="updateId"    column="update_id"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectTTweetVo">
+        select id, mid, uid, status, t_uid, title, create_time, a_uid, create_id, update_id, update_time from t_tweet
+    </sql>
+
+    <select id="selectTTweetList" parameterType="TTweet" resultMap="TTweetResult">
+        <include refid="selectTTweetVo"/>
+        <where>  
+            <if test="mid != null "> and mid = #{mid}</if>
+            <if test="uid != null "> and uid = #{uid}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="tUid != null "> and t_uid = #{tUid}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="aUid != null "> and a_uid = #{aUid}</if>
+            <if test="createId != null "> and create_id = #{createId}</if>
+            <if test="updateId != null "> and update_id = #{updateId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTTweetById" parameterType="Long" resultMap="TTweetResult">
+        <include refid="selectTTweetVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTTweet" parameterType="TTweet" useGeneratedKeys="true" keyProperty="id">
+        insert into t_tweet
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mid != null ">mid,</if>
+            <if test="uid != null ">uid,</if>
+            <if test="status != null ">status,</if>
+            <if test="tUid != null ">t_uid,</if>
+            <if test="title != null  and title != ''">title,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="aUid != null ">a_uid,</if>
+            <if test="createId != null ">create_id,</if>
+            <if test="updateId != null ">update_id,</if>
+            <if test="updateTime != null ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="mid != null ">#{mid},</if>
+            <if test="uid != null ">#{uid},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="tUid != null ">#{tUid},</if>
+            <if test="title != null  and title != ''">#{title},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="aUid != null ">#{aUid},</if>
+            <if test="createId != null ">#{createId},</if>
+            <if test="updateId != null ">#{updateId},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTTweet" parameterType="TTweet">
+        update t_tweet
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mid != null ">mid = #{mid},</if>
+            <if test="uid != null ">uid = #{uid},</if>
+            <if test="status != null ">status = #{status},</if>
+            <if test="tUid != null ">t_uid = #{tUid},</if>
+            <if test="title != null  and title != ''">title = #{title},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="aUid != null ">a_uid = #{aUid},</if>
+            <if test="createId != null ">create_id = #{createId},</if>
+            <if test="updateId != null ">update_id = #{updateId},</if>
+            <if test="updateTime != null ">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTTweetById" parameterType="Long">
+        delete from t_tweet where id = #{id}
+    </delete>
+
+    <delete id="deleteTTweetByIds" parameterType="String">
+        delete from t_tweet where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -130,10 +130,6 @@ public class BaseEntity implements Serializable
         this.beginTime = beginTime;
     }
 
-    public String getEndTime()
-    {
-        return endTime;
-    }
 
     public void setEndTime(String endTime)
     {
